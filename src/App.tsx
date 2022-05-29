@@ -26,12 +26,16 @@ function App() {
       onSuccess: (data) => {
         if (data) setSelected(data.list[0])   
         setsubmited(false)
-        toast("Easy peasy!")
+        toast("Easy peasy!",{
+          toastId: "success"
+        })
       },
       onError: () => {
         setsubmited(false)
         setSelected(null)
-        toast("Sorry we didn't find a match") 
+        toast("Sorry we didn't find a match",{
+          toastId: "error"
+        }) 
       },
     }
   )
@@ -43,7 +47,9 @@ function App() {
 
   const handelChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if(input.current) setsubmited(true)
-    else toast("Please enter a name of a city") 
+    else toast("Please enter a name of a city",{
+      toastId: "empty-input"
+    }) 
 
     unit.current = e.target.value
   }
