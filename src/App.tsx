@@ -18,7 +18,7 @@ function App() {
   const [selected, setSelected] = useState<weatherDay | null>(null)
 
   const { isLoading, error, data } = useQuery<weathers, ErrorConstructor>(
-    ['weatherData'],
+    ['weatherData',unit.current],
     () => getWeathers(input.current, unit.current),
     {
       retry: false,
@@ -26,7 +26,7 @@ function App() {
       onSuccess: (data) => {
         if (data) setSelected(data.list[0])   
         setsubmited(false)
-        toast("Wow so easy !")
+        toast("Easy peasy!")
       },
       onError: () => {
         setsubmited(false)
@@ -42,6 +42,9 @@ function App() {
   }
 
   const handelChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    if(input.current) setsubmited(true)
+    else toast("Please enter a name of a city") 
+
     unit.current = e.target.value
   }
 
