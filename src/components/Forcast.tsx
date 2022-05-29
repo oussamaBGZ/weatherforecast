@@ -3,6 +3,8 @@ import WeatherCard from './WeatherCard'
 import Slider from "react-slick";
 import { weatherDay } from '../api/weatherApi';
 import useFilterDays from '../hooks/useFilterDays';
+import next from '../icons/next.png'
+import back from '../icons/back.png'
 
 var settings = {
     dots: false,
@@ -12,7 +14,9 @@ var settings = {
     slidesToScroll: 1,
     focusOnSelect: true,
     initialSlide: 4,
-    adaptiveHeight: true
+    adaptiveHeight: true,
+    nextArrow: <img src={next} />,
+    prevArrow:  <img src={back} />
 };
 
 interface Props {

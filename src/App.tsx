@@ -1,13 +1,14 @@
 import './App.css';
 import { useQuery } from 'react-query'
 import { getWeathers, weatherDay, weathers } from './api/weatherApi';
-import { useEffect, useRef, useState } from 'react';
+import {  useRef, useState } from 'react';
 import styled from 'styled-components'
 import { toast } from 'react-toastify';
 import Forcast from './components/Forcast';
 import moment from 'moment';
 import WeatherIcon from './components/WeatherIcons';
 import BarChart from './components/BarChart';
+import Notfound from './components/Notfound';
 
 
 function App() {
@@ -23,14 +24,14 @@ function App() {
       retry: false,
       enabled: !!submited,
       onSuccess: (data) => {
-        if (data) setSelected(data.list[0])
+        if (data) setSelected(data.list[0])   
         setsubmited(false)
         toast("Wow so easy !")
       },
       onError: () => {
         setsubmited(false)
         setSelected(null)
-        toast("not so easy !")
+        toast("Sorry we didn't find a match") 
       },
     }
   )
@@ -48,12 +49,12 @@ function App() {
     <Container>
       <div className="row">
         <div className="one-third column">
-          <form onSubmit={handelSubmit}>
-            <Input disabled={isLoading} placeholder="City name..." onChange={(e: React.ChangeEvent<HTMLInputElement>) => input.current = e.target.value} defaultValue="tunis" required />
+          <form onSubmit={handelSubmit} data-testid="form">
+            <Input disabled={isLoading} placeholder="City name..." onChange={(e: React.ChangeEvent<HTMLInputElement>) => input.current = e.target.value} defaultValue={input.current} required />
             <Select onChange={handelChange}>
               <option value="metric">Celsius</option>
               <option value="imperial">Fahrenheit</option>
-            </Select>
+            </Select><br/>
             <Italic>Submit the form to see changes</Italic>
           </form>
           <br /><br />
@@ -84,9 +85,10 @@ function App() {
               <div style={{ height: 300 }}>
                 <BarChart data={data.list} unit={unit.current}/>
               </div>
+              <br />
               <Forcast unit={unit.current} data={data.list} setSelected={setSelected} selected={selected} />
             </>
-            : "no data provided"}
+            : <Notfound />}
         </div>
       </div>
     </Container>
@@ -97,11 +99,11 @@ export default App;
 
 const Container = styled.div`
 box-shadow: 0 0 10px #F3F6FA;
-width:60vw;
+width:70vw;
 height: 70vh;
 background-color: #fff;
 border-radius: 10px;
-padding: 20px;
+padding: 40px;
 `
 const Input = styled.input`
  border-radius: 3px;
